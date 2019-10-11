@@ -1,0 +1,25 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: hello-normal
+spec:
+  template:
+    metadata:
+      labels:
+        app: hello-normal
+    spec:
+      containers:
+      - name: helloworld
+        image: crccheck/hello-world 
+        ports:
+          - containerPort: 8000
+        lifecycle:
+          preStop:
+            exec:
+              command: [
+                "sh", "-c", "sleep 45"
+              ]
+      terminationGracePeriodSeconds: 60
+      nodeSelector:
+        kubernetes.io/role: agent
+        beta.kubernetes.io/os: linux     

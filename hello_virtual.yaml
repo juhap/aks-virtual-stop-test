@@ -1,0 +1,31 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: hello-virtual
+spec:
+  template:
+    metadata:
+      labels:
+        app: hello-virtual
+    spec:
+      containers:
+      - name: helloworld
+        image: crccheck/hello-world 
+        ports:
+          - containerPort: 8000
+        lifecycle:
+          preStop:
+            exec:
+              command: [
+                "sh", "-c", "sleep 45"
+              ]
+      terminationGracePeriodSeconds: 60
+      nodeSelector:
+        kubernetes.io/role: agent
+        beta.kubernetes.io/os: linux
+        type: virtual-kubelet
+      tolerations:
+      - key: virtual-kubelet.io/provider
+        operator: Exists
+      - key: azure.com/aci
+        effect: NoSchedule      

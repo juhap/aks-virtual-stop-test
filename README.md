@@ -1,3 +1,5 @@
+(This is related to AKS issue: https://github.com/Azure/AKS/issues/1267)
+
 A quick test to see how the Azure AKS with virtual nodes handles the delay in preStop lifecycle hook. Based on this
 there seems to be difference between the regular nodes and virtual nodes. In the virtual node the pod gets killed immediately, 
 while the regular node behaves as expected.
